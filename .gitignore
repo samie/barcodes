@@ -22,9 +22,10 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
-# Built and downloaded folders
+# Built and downloaded folders and files
 node_modules
 target
+pom.xml.versionsBackup
 
 # Intellij Idea
 .idea
