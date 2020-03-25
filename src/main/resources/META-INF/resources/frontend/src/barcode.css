@@ -1,0 +1,11 @@
+
+/* Basics styles for our app and layout */
+barcode-bwipjs {
+    position: relative;
+    display: block;
+}
+
+#canvas {
+    width: 100%;
+    height: 100%;
+}
