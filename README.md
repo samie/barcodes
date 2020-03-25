@@ -1,6 +1,6 @@
 # Barcodes
 
-Vaadin 14 Java integration of [bwip-js](https://github.com/metafloor/bwip-js)
+Vaadin 14 Java integration of [bwip-js](https://github.com/metafloor/bwip-js). Create various kind of barcodes and QR codes for Vaadin. List of [supported barcode types](https://github.com/metafloor/bwip-js/wiki/BWIPP-Barcode-Types).
 
 ## Development instructions
 
