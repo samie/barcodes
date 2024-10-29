@@ -1,4 +1,4 @@
-import {html, PolymerElement} from '@polymer/polymer/polymer-element.js'; // import Web Component helpers
+import { LitElement, html, css } from 'lit';
 import bwipjs from 'bwip-js'; // import bwip-js from NPM
 
 /**
@@ -8,7 +8,14 @@ import bwipjs from 'bwip-js'; // import bwip-js from NPM
  * 
  * It extends ThemableMixin so that Vaadin styles can be applied easily (for instance in the margin style).
  */
-class Barcode extends PolymerElement {
+class Barcode extends LitElement {
+
+    // CSS styles for the canvas element
+    static styles = css`
+        canvas {
+            display: block;
+        }
+    `;
 
 	/**
 	 * This method creates the DOM for our web component. We define some styles and 
@@ -16,9 +23,9 @@ class Barcode extends PolymerElement {
 	 * 
 	 * This is standard Web Component API.
 	 */
-    static get template() {
+    render() {
         return html`
-        	<canvas id="canvas"></canvas>
+            <canvas id="canvas"></canvas>
         `;
     }
 
@@ -30,16 +37,22 @@ class Barcode extends PolymerElement {
     }
     
     /**
-     * The default for Polymer is to create a shadow root for each element. In this case, touch events will 
-     * conflict with Polymer helpers so we use regular (light) DOM instead.
+     * The default for Lit is to create a shadow root for each element. In this case, touch events will
+     * conflict with Lit helpers so we use regular (light) DOM instead.
      */
-    _attachDom(dom){
-    	this.appendChild(dom); // don't create shadow root, just append the content
-    	return this;
+    createRenderRoot() {
+        return this; // don't create shadow root, just append the content
     }
-    
+
+    firstUpdated() {
+        super.firstUpdated();
+        // The following call was originally in init() but since it is called before the first render it will fail
+        // Moving the initialisation here fixes the issue
+        this.barcode = bwipjs.toCanvas(this.querySelector("#canvas"), this.options);
+    }
+
     /**
-     * Again, we can't use Shadow DOM because it conflicts (see above). Here we check if this element is 
+     * Again, we can't use Shadow DOM because it conflicts (see above). Here we check if this element is
      * used inside a shadow root without a <slot>.
      */
     connectedCallback() {
@@ -52,29 +65,19 @@ class Barcode extends PolymerElement {
             }
         }
     }
-    
-    /**
-     * Called automatically when this element is created
-     */
-    ready() {
-        super.ready();
-    }
-    
 
     /** Set the barcode text content and type.
      */
     init(text, bcid) {
-        var devicePixelRatio = window.devicePixelRatio || 1;
+        const devicePixelRatio = window.devicePixelRatio || 1;
         this.options = {
-            bcid:        bcid,               // Barcode type
-            text:        text,               // Text to encode
-            scale:       devicePixelRatio*2, // Scaling factor based on device pixels
-            includetext: true,               // Show human-readable text, if available
-            textxalign:  'center',           // Always good to set this
+            bcid:        bcid,                 // Barcode type
+            text:        text,                 // Text to encode
+            scale:       devicePixelRatio * 2, // Scaling factor based on device pixels
+            includetext: true,                 // Show human-readable text, if available
+            textxalign:  'center',             // Always good to set this
         };
-        this.barcode = bwipjs.toCanvas(this.$.canvas, this.options);
     }
-
 }
 
 customElements.define(Barcode.is, Barcode); // Registers this custom element with the browser
