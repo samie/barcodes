@@ -5,18 +5,14 @@ import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.dependency.NpmPackage;
-import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
-import com.vaadin.flow.templatemodel.TemplateModel;
-
+import com.vaadin.flow.component.littemplate.LitTemplate;
 
 // Download the bwip-js JS files using NPM
-@NpmPackage(value = "bwip-js", version = "2.0.6")
+@NpmPackage(value = "bwip-js", version = "4.5.1")
 @Tag(Barcode.ELEMENT_TAG_NAME)
 @JsModule("./src/barcode.js")
 @CssImport(value = "./src/barcode.css")
-/*
- */
-public class Barcode extends PolymerTemplate<TemplateModel> implements HasSize {
+public class Barcode extends LitTemplate implements HasSize {
 
     // Custom element tag name. This should match the client-side JS.
     public static final String ELEMENT_TAG_NAME = "barcode-bwipjs";
